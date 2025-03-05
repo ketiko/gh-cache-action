@@ -45,7 +45,7 @@ runs:
       with:
         path: |
           ~/.npm
-          node_modules
+          **/node_modules
         key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-npm-
@@ -56,7 +56,7 @@ runs:
       with:
         path: |
           ~/.config/yarn
-          node_modules
+          **/node_modules
         key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
