@@ -5,9 +5,37 @@ runs:
   using: composite
   steps:
     - uses: actions/cache@v4
+      # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L25
+      name: Setup Maven Caching
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+          ${{ runner.os }}-
+    - uses: actions/cache@v4
+      name: Setup SBT Caching
+      # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L47
+      with:
+        path: |
+          ~/.ivy2/cache
+          ~/.sbt
+          ~/.cache/coursier
+          ~/.m2
+          !~/.sbt/*.lock
+          !~/**/ivydata-*.properties
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/*.sbt', '**/project/build.properties', '**/project/**.scala', '**/project/**.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
+          ${{ runner.os }}-
+    - uses: actions/cache@v4
+      name: Setup Gradle Caching
+      # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L31
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**/Versions.kt', 'buildSrc/**/Dependencies.kt', 'gradle/*.versions.toml', '**/versions.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
           ${{ runner.os }}-
