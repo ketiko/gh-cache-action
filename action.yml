@@ -1,5 +1,18 @@
-name: "Maven Caching"
-description: "Maven caching"
+---
+name: "Enhanced Caching"
+description: "Enhanced caching over the default setup-{language} GH action caching"
+
+inputs:
+  cache:
+    description: "Package manager cache type"
+    required: true
+    type: choice
+    options:
+      - "maven"
+      - "sbt"
+      - "gradle"
+      - "npm"
+      - "yarn"
 
 runs:
   using: composite
@@ -7,6 +20,7 @@ runs:
     - uses: actions/cache@v4
       # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L25
       name: Setup Maven Caching
+      if: ${{ inputs.cache == 'maven' }}
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -16,6 +30,7 @@ runs:
     - uses: actions/cache@v4
       name: Setup SBT Caching
       # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L47
+      if: ${{ inputs.cache == 'sbt' }}
       with:
         path: |
           ~/.ivy2/cache
@@ -31,6 +46,7 @@ runs:
     - uses: actions/cache@v4
       name: Setup Gradle Caching
       # See https://github.com/actions/setup-java/blob/799ee7c97e9721ef38d1a7e8486c39753b9d6102/src/cache.ts#L31
+      if: ${{ inputs.cache == 'gradle' }}
       with:
         path: |
           ~/.gradle/caches
@@ -42,6 +58,7 @@ runs:
     - uses: actions/cache@v4
       name: Setup NPM Caching
       # See https://github.com/actions/setup-node/blob/802632921f8532d2409ae6eac3313b6f81f11122/src/cache-utils.ts#L22
+      if: ${{ inputs.cache == 'npm' }}
       with:
         path: |
           ~/.npm
@@ -53,6 +70,7 @@ runs:
     - uses: actions/cache@v4
       name: Setup Yarn Caching
       # See https://github.com/actions/setup-node/blob/802632921f8532d2409ae6eac3313b6f81f11122/src/cache-utils.ts#L40
+      if: ${{ inputs.cache == 'yarn' }}
       with:
         path: |
           ~/.config/yarn
