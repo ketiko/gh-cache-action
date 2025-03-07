@@ -23,9 +23,10 @@ runs:
       if: ${{ inputs.cache == 'maven' }}
       with:
         path: ~/.m2/repository
-        key: enhanced-caching-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: enhanced-caching-maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          enhanced-caching-${{ runner.os }}-maven-
+          enhanced-caching-maven-${{ runner.os }}
+          enhanced-caching-maven
 
     - uses: actions/cache@v4
       name: Setup SBT Caching
@@ -39,9 +40,10 @@ runs:
           ~/.m2
           !~/.sbt/*.lock
           !~/**/ivydata-*.properties
-        key: enhanced-caching-${{ runner.os }}-sbt-${{ hashFiles('**/*.sbt', '**/project/build.properties', '**/project/**.scala', '**/project/**.sbt') }}
+        key: enhanced-caching-sbt-${{ runner.os }}-${{ hashFiles('**/*.sbt', '**/project/build.properties', '**/project/**.scala', '**/project/**.sbt') }}
         restore-keys: |
-          enhanced-caching-${{ runner.os }}-sbt-
+          enhanced-caching-sbt-${{ runner.os }}
+          enhanced-caching-sbt
 
     - uses: actions/cache@v4
       name: Setup Gradle Caching
@@ -51,9 +53,10 @@ runs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: enhanced-caching-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**/Versions.kt', 'buildSrc/**/Dependencies.kt', 'gradle/*.versions.toml', '**/versions.properties') }}
+        key: enhanced-caching-gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**/Versions.kt', 'buildSrc/**/Dependencies.kt', 'gradle/*.versions.toml', '**/versions.properties') }}
         restore-keys: |
-          enhanced-caching-${{ runner.os }}-gradle-
+          enhanced-caching-gradle-${{ runner.os }}
+          enhanced-caching-gradle
 
     - uses: actions/cache@v4
       name: Setup NPM Caching
@@ -63,9 +66,10 @@ runs:
         path: |
           ~/.npm
           **/node_modules
-        key: enhanced-caching-${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json', '**/npm-shrinkwrap.json', '**/yarn.lock') }}
+        key: enhanced-caching-npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/npm-shrinkwrap.json', '**/yarn.lock') }}
         restore-keys: |
-          enhanced-caching-${{ runner.os }}-npm-
+          enhanced-caching-npm-${{ runner.os }}
+          enhanced-caching-npm
 
     - uses: actions/cache@v4
       name: Setup Yarn Caching
@@ -75,6 +79,7 @@ runs:
         path: |
           ~/.config/yarn
           **/node_modules
-        key: enhanced-caching-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        key: enhanced-caching-yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
-          enhanced-caching-${{ runner.os }}-yarn-
+          enhanced-caching-yarn-${{ runner.os }}
+          enhanced-caching-yarn
