@@ -28,6 +28,18 @@ jobs:
           noVersionBumpBehavior: patch
           noNewCommitBehavior: warn
 
+      - name: next
+        run: echo "Building version ${{ steps.semver.outputs.next }}"
+
+      - name: current
+        run: echo "Building version ${{ steps.semver.outputs.current }}"
+
+      - name: nextmajor
+        run: echo "Building version ${{ steps.semver.outputs.nextMajor }}"
+
+      - name: bump
+        run: echo "Building version ${{ steps.semver.outputs.bump }}"
+
       - name: Create Release
         uses: ncipollo/release-action@v1.14.0
         with:
