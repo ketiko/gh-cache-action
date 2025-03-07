@@ -27,7 +27,7 @@ jobs:
           noNewCommitBehavior: warn
 
       - name: Create Semver Release
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1
         with:
           allowUpdates: false
           draft: false
@@ -35,11 +35,12 @@ jobs:
           generateReleaseNotes: true
           makeLatest: true
           skipIfReleaseExists: true
+          commit: ${{ github.sha }}
           tag: ${{ steps.semver.outputs.next }}
           token: ${{ github.token }}
 
       - name: Create/Update Major Release
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           draft: false
@@ -47,5 +48,6 @@ jobs:
           generateReleaseNotes: true
           makeLatest: false
           skipIfReleaseExists: false
+          commit: ${{ github.sha }}
           tag: ${{ steps.semver.outputs.nextMajor }}
           token: ${{ github.token }}
