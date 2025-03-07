@@ -7,10 +7,8 @@ on:
       - main
 
 
-#permissions:
-#  id-token: read
-#  contents: read
-#  pull-requests: read
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -28,24 +26,26 @@ jobs:
           noVersionBumpBehavior: patch
           noNewCommitBehavior: warn
 
-      - name: next
-        run: echo "Building version ${{ steps.semver.outputs.next }}"
-
-      - name: current
-        run: echo "Building version ${{ steps.semver.outputs.current }}"
-
-      - name: nextmajor
-        run: echo "Building version ${{ steps.semver.outputs.nextMajor }}"
-
-      - name: bump
-        run: echo "Building version ${{ steps.semver.outputs.bump }}"
-
-      - name: Create Release
+      - name: Create Semver Release
         uses: ncipollo/release-action@v1.14.0
         with:
           allowUpdates: false
           draft: false
           prerelease: false
           generateReleaseNotes: true
+          makeLatest: true
+          skipIfReleaseExists: true
           tag: ${{ steps.semver.outputs.next }}
+          token: ${{ github.token }}
+
+      - name: Create/Update Major Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          allowUpdates: true
+          draft: false
+          prerelease: false
+          generateReleaseNotes: true
+          makeLatest: false
+          skipIfReleaseExists: false
+          tag: ${{ steps.semver.outputs.nextMajor }}
           token: ${{ github.token }}
